@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { seriesApi } from "../../services/api";
 import { MdAdd, MdDelete, MdEdit, MdClose } from "react-icons/md";
 
