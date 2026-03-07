@@ -15,12 +15,12 @@ const Navbar = () => {
       <div className="content-shell flex h-[68px] items-center justify-between">
         <Link to="/" className="inline-flex items-center gap-3">
           <img
-            src="https://i.imgur.com/vHqEXr0.png"
-            alt="Necro Scans"
+            src="/Zeitlos_Logo_Var_1.webp"
+            alt="Zeitlos Scan"
             className="h-9 w-9 rounded-full object-cover ring-1 ring-white/10"
           />
           <span className="text-lg font-extrabold tracking-[-0.02em] text-zinc-100">
-            Necro Scans
+            Zeitlos Scan
           </span>
         </Link>
 

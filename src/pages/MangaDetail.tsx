@@ -37,7 +37,7 @@ const MangaDetail = () => {
     "inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-zinc-100";
 
   return (
-    <div className="relative min-h-screen pb-20 pt-[84px] md:pt-[100px]">
+    <div className="relative min-h-screen pb-20 pt-6 md:pt-[100px]">
       <div
         className="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center opacity-30 blur-3xl"
         style={{ backgroundImage: `url(${manga.coverUrl ?? ""})` }}
@@ -64,7 +64,7 @@ const MangaDetail = () => {
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
           </Link>
-          <h2 className="text-base font-bold text-zinc-100">Necro Scans</h2>
+          <h2 className="text-base font-bold text-zinc-100">Zeitlos Scan</h2>
           <button
             type="button"
             aria-label="Open search"
