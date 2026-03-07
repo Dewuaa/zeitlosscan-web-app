@@ -10,16 +10,27 @@ import { useSeriesList } from "../hooks/useSeriesList";
 import { LuBookOpen } from "react-icons/lu";
 
 const Home = () => {
-  const { series, loading } = useSeriesList(1, 9);
+  const { series: latestSeries, loading: latestLoading } = useSeriesList(
+    1,
+    15,
+    "latest",
+  );
+  const { series: popularSeries, loading: popularLoading } = useSeriesList(
+    1,
+    15,
+    "popular",
+  );
+
+  const loading = latestLoading || popularLoading;
 
   return (
     <main>
       <AnimatedSection>
-        <HeroSection />
+        <HeroSection series={popularSeries.slice(0, 5)} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>
-        <PopularMangas />
+        <PopularMangas series={popularSeries.slice(0, 5)} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>
@@ -31,12 +42,12 @@ const Home = () => {
       </AnimatedSection>
 
       <AnimatedSection>
-        <PinnedSeries series={series} loading={loading} />
+        <PinnedSeries series={latestSeries.slice(0, 9)} loading={loading} />
       </AnimatedSection>
 
       <AnimatedSection>
         <LatestUpdates
-          series={series}
+          series={latestSeries}
           loading={loading}
           icon={<LuBookOpen />}
           showTabs
@@ -44,7 +55,7 @@ const Home = () => {
       </AnimatedSection>
 
       <AnimatedSection>
-        <EditorsChoice />
+        <EditorsChoice series={latestSeries} />
       </AnimatedSection>
     </main>
   );

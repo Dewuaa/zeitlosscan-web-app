@@ -54,7 +54,7 @@ const BrowseSeries = () => {
   }, [series, search, statusFilter, sort]);
 
   return (
-    <main className="min-h-screen pt-[90px] pb-20">
+    <main className="min-h-screen pt-[76px] md:pt-[90px] pb-20">
       <div className="content-shell">
         <div className="mb-6">
           <h1 className="text-3xl font-black tracking-[-0.03em] text-zinc-100 md:text-4xl">

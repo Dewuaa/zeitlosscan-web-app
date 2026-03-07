@@ -36,8 +36,8 @@ export const authApi = {
 
 // ── Series ───────────────────────────────────────────
 export const seriesApi = {
-  list: (page = 1, limit = 20) =>
-    api.get("/series", { params: { page, limit } }),
+  list: (page = 1, limit = 20, sort?: string) =>
+    api.get("/series", { params: { page, limit, ...(sort ? { sort } : {}) } }),
   get: (slug: string) => api.get(`/series/${slug}`),
   create: (form: FormData) =>
     api.post("/series", form, {

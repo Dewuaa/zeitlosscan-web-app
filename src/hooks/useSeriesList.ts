@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { seriesApi } from "../services/api";
 import type { ApiSeries, ApiSeriesListResponse } from "../types/api";
 
-export function useSeriesList(page = 1, limit = 50) {
+export function useSeriesList(page = 1, limit = 50, sort?: string) {
   const [data, setData] = useState<ApiSeriesListResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,11 +10,11 @@ export function useSeriesList(page = 1, limit = 50) {
   useEffect(() => {
     setLoading(true);
     seriesApi
-      .list(page, limit)
+      .list(page, limit, sort)
       .then((r) => setData(r.data))
       .catch(() => setError("Failed to load series"))
       .finally(() => setLoading(false));
-  }, [page, limit]);
+  }, [page, limit, sort]);
 
   return {
     series: data?.series ?? ([] as ApiSeries[]),

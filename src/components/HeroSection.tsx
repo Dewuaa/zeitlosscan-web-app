@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import type { MouseEvent } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { heroMangas } from "../data";
+import type { ApiSeries } from "../types/api";
 
-const HeroSection = () => {
+const HeroSection = ({ series }: { series: ApiSeries[] }) => {
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(1);
-  const total = heroMangas.length;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = series.length;
 
   const goTo = useCallback(
     (dir: "left" | "right") => {
@@ -66,8 +66,10 @@ const HeroSection = () => {
     return "pointer-events-none z-0 scale-75 opacity-0";
   };
 
+  if (series.length === 0) return null;
+
   return (
-    <div className="content-shell pt-[88px] md:pt-[102px]">
+    <div className="content-shell pt-[76px] md:pt-[102px]">
       <div
         className="relative h-[430px] overflow-hidden rounded-[28px] border border-white/10 bg-black/40 md:h-[520px]"
         onMouseMove={handleMouseMove}
@@ -91,7 +93,7 @@ const HeroSection = () => {
         </button>
 
         <div className="relative h-full">
-          {heroMangas.map((manga, index) => {
+          {series.map((manga, index) => {
             const state = getCardState(index);
 
             return (
@@ -100,7 +102,7 @@ const HeroSection = () => {
                 className={`absolute left-1/2 top-1/2 h-[88%] w-[72%] -translate-x-1/2 -translate-y-1/2 cursor-pointer overflow-hidden rounded-3xl border border-white/15 transition-all duration-500 max-md:w-[88%] ${getCardClass(state)}`}
                 onClick={() => {
                   if (index === activeIndex) {
-                    navigate(`/manga/${manga.id}`);
+                    navigate(`/manga/${manga.slug}`);
                   } else {
                     setActiveIndex(index);
                   }
@@ -108,14 +110,14 @@ const HeroSection = () => {
               >
                 {index === activeIndex ? (
                   <motion.img
-                    src={manga.cover}
+                    src={manga.coverUrl || "/placeholder-cover.jpg"}
                     alt={manga.title}
                     className="h-full w-full object-cover [image-rendering:auto]"
                     style={{ x: mouseX, y: mouseY, scale: 1.015 }}
                   />
                 ) : (
                   <img
-                    src={manga.cover}
+                    src={manga.coverUrl || "/placeholder-cover.jpg"}
                     alt={manga.title}
                     className="h-full w-full object-cover"
                   />
@@ -127,9 +129,11 @@ const HeroSection = () => {
                   <span className="rounded-md bg-red-600/90 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
                     New
                   </span>
-                  <span className="rounded-md bg-black/45 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-zinc-100">
-                    {manga.type}
-                  </span>
+                  {manga.genres && manga.genres[0] && (
+                    <span className="rounded-md bg-black/45 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-zinc-100">
+                      {manga.genres[0]}
+                    </span>
+                  )}
                   <span className="rounded-md bg-black/45 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-zinc-100">
                     English
                   </span>

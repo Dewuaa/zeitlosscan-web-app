@@ -1,9 +1,11 @@
 import SectionHeader from "./SectionHeader";
 import { LuFlame } from "react-icons/lu";
-import { trendingMangas } from "../data";
 import { Link } from "react-router-dom";
+import type { ApiSeries } from "../types/api";
 
-const PopularMangas = () => {
+const PopularMangas = ({ series }: { series: ApiSeries[] }) => {
+  if (series.length === 0) return null;
+
   return (
     <div className="content-shell">
       <SectionHeader
@@ -11,15 +13,15 @@ const PopularMangas = () => {
         icon={<LuFlame color="var(--accent-hot)" />}
       />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {trendingMangas.map((manga, index) => (
+        {series.map((manga, index) => (
           <Link
-            to={`/manga/${manga.id}`}
+            to={`/manga/${manga.slug}`}
             key={manga.id}
             className="group overflow-hidden rounded-xl border border-white/10 bg-[#111114] transition-all hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.4)]"
           >
             <div className="relative">
               <img
-                src={manga.cover}
+                src={manga.coverUrl || "/placeholder-cover.jpg"}
                 alt={manga.title}
                 className="aspect-[2/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -32,7 +34,7 @@ const PopularMangas = () => {
                 {manga.title}
               </h4>
               <span className="line-clamp-1 text-xs text-zinc-500">
-                {manga.genres}
+                {manga.genres?.join(", ")}
               </span>
             </div>
           </Link>
