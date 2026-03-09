@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { FiSearch, FiGrid, FiBook, FiUser } from "react-icons/fi";
 
 const Navbar = () => {
   const location = useLocation();
@@ -6,7 +7,7 @@ const Navbar = () => {
     location.pathname.startsWith("/manga/") ||
     location.pathname.startsWith("/read/");
   const pillClass =
-    "inline-flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 text-sm font-semibold text-zinc-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-white";
+    "group inline-flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 text-sm font-semibold text-zinc-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-white";
 
   return (
     <nav
@@ -33,37 +34,11 @@ const Navbar = () => {
               window.dispatchEvent(new Event("open-command-palette"))
             }
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+            <FiSearch size={18} className="transition-transform group-hover:scale-110" />
           </button>
 
           <Link to="/browse" className={`${pillClass} max-md:hidden`}>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
+            <FiGrid size={18} className="transition-transform group-hover:scale-110" />
             <span>Series</span>
           </Link>
 
@@ -72,9 +47,7 @@ const Navbar = () => {
             aria-label="Open library"
             className={`${pillClass} max-md:hidden`}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 6h2v14H4zm14-2H6v2h12zm0 14H6v2h12zm2-14h2v14h-2V4z" />
-            </svg>
+            <FiBook size={18} className="transition-transform group-hover:scale-110" />
             <span>Library</span>
           </button>
 
@@ -83,9 +56,7 @@ const Navbar = () => {
             aria-label="Sign in"
             className={`${pillClass} max-md:hidden`}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6zm-1-9a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-            </svg>
+            <FiUser size={18} className="transition-transform group-hover:scale-110" />
             <span>Sign in</span>
           </button>
         </div>

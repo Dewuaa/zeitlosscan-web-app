@@ -3,6 +3,7 @@ import { LuClock, LuBookOpen } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import SectionHeader from "./SectionHeader";
 import type { ApiSeries } from "../types/api";
+import { Skeleton } from "./Skeleton";
 
 interface LatestUpdatesProps {
   title?: string;
@@ -51,8 +52,23 @@ const LatestUpdates = ({
       )}
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="flex gap-3 rounded-2xl border border-white/5 bg-[#111114] p-3"
+            >
+              <Skeleton className="h-[150px] w-[100px] shrink-0 rounded-lg md:h-[170px] md:w-[114px]" />
+              <div className="flex min-w-0 flex-1 flex-col space-y-3">
+                <Skeleton className="mt-1 h-5 w-16 rounded-md bg-white/10" />
+                <Skeleton className="h-4 w-5/6 rounded bg-white/10" />
+                <div className="mt-auto space-y-2 pb-1">
+                  <Skeleton className="h-8 w-full rounded-lg bg-white/5" />
+                  <Skeleton className="h-8 w-full rounded-lg bg-white/5" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       ) : filtered.length === 0 ? (
         <p className="py-12 text-center text-sm text-zinc-500">

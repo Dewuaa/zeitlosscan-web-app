@@ -26,11 +26,11 @@ const Home = () => {
   return (
     <main>
       <AnimatedSection>
-        <HeroSection series={popularSeries.slice(0, 5)} />
+        <HeroSection series={popularSeries.slice(0, 5)} loading={loading} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>
-        <PopularMangas series={popularSeries.slice(0, 5)} />
+        <PopularMangas series={popularSeries.slice(0, 5)} loading={loading} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>

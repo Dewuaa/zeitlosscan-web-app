@@ -2,8 +2,42 @@ import SectionHeader from "./SectionHeader";
 import { LuFlame } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import type { ApiSeries } from "../types/api";
+import { Skeleton } from "./Skeleton";
 
-const PopularMangas = ({ series }: { series: ApiSeries[] }) => {
+const PopularMangas = ({
+  series,
+  loading = false,
+}: {
+  series: ApiSeries[];
+  loading?: boolean;
+}) => {
+  if (loading) {
+    return (
+      <div className="content-shell">
+        <SectionHeader
+          title="Trending"
+          icon={<LuFlame color="var(--accent-hot)" />}
+        />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="overflow-hidden rounded-xl border border-white/5 bg-[#111114]"
+            >
+              <div className="relative aspect-[2/3] w-full">
+                <Skeleton className="absolute inset-0" />
+              </div>
+              <div className="space-y-2 p-3">
+                <Skeleton className="h-4 w-3/4 rounded bg-white/10" />
+                <Skeleton className="h-3 w-1/2 rounded bg-white/10" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (series.length === 0) return null;
 
   return (
@@ -45,3 +79,4 @@ const PopularMangas = ({ series }: { series: ApiSeries[] }) => {
 };
 
 export default PopularMangas;
+

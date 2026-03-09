@@ -2,7 +2,17 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaDiscord } from "react-icons/fa";
 import { SiKofi } from "react-icons/si";
+import {
+  LuChevronLeft,
+  LuSearch,
+  LuPlay,
+  LuPlus,
+  LuBell,
+  LuTriangleAlert,
+  LuArrowDownUp,
+} from "react-icons/lu";
 import { useSeriesDetail } from "../hooks/useSeriesDetail";
+import { Skeleton } from "../components/Skeleton";
 
 const MangaDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -14,8 +24,43 @@ const MangaDetail = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center">
-        <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+      <div className="relative min-h-screen pb-20 pt-6 md:pt-[100px]">
+        <div className="content-shell mt-10 md:mt-0">
+          <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+            <aside className="lg:sticky lg:top-24 lg:self-start space-y-3">
+              <Skeleton className="aspect-[2/3] w-full rounded-2xl" />
+              <div className="grid grid-cols-2 gap-2">
+                <Skeleton className="h-10 rounded-xl bg-white/5" />
+                <Skeleton className="h-10 rounded-xl bg-white/5" />
+              </div>
+              <div className="flex gap-2">
+                <Skeleton className="h-10 flex-1 rounded-xl bg-white/5" />
+                <Skeleton className="h-10 w-10 rounded-xl bg-white/5" />
+              </div>
+            </aside>
+            <section className="space-y-6">
+              <Skeleton className="h-10 w-3/4 md:w-1/2 rounded-lg bg-white/10" />
+              <div className="flex gap-2">
+                <Skeleton className="h-6 w-16 rounded-lg bg-white/10" />
+                <Skeleton className="h-6 w-20 rounded-lg bg-white/10" />
+                <Skeleton className="h-6 w-24 rounded-lg bg-white/10" />
+              </div>
+              <div className="space-y-4">
+                <Skeleton className="h-4 w-32 rounded bg-white/5" />
+                <Skeleton className="h-24 w-full rounded-xl bg-white/5" />
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <Skeleton key={idx} className="h-16 rounded-xl bg-white/5" />
+                ))}
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-32 rounded bg-white/5" />
+                <Skeleton className="h-24 w-full rounded bg-white/5" />
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     );
   }
@@ -34,7 +79,7 @@ const MangaDetail = () => {
   const chapters = manga.chapters ?? [];
 
   const pillButton =
-    "inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-zinc-100";
+    "group relative inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-zinc-100";
 
   return (
     <div className="relative min-h-screen pb-20 pt-6 md:pt-[100px]">
@@ -49,43 +94,20 @@ const MangaDetail = () => {
           <Link
             to="/"
             aria-label="Back to home"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] transition-colors hover:bg-white/[0.08]"
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
+            <LuChevronLeft size={20} />
           </Link>
           <h2 className="text-base font-bold text-zinc-100">Zeitlos Scan</h2>
           <button
             type="button"
             aria-label="Open search"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] transition-colors hover:bg-white/[0.08]"
             onClick={() =>
               window.dispatchEvent(new Event("open-command-palette"))
             }
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+            <LuSearch size={18} />
           </button>
         </div>
 
@@ -105,27 +127,13 @@ const MangaDetail = () => {
                 <>
                   <Link
                     to={`/read/${chapters[chapters.length - 1].id}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-3 py-2 text-xs font-bold text-white shadow-[0_12px_28px_rgba(229,9,20,0.35)] hover:bg-red-500"
+                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-3 py-2 text-xs font-bold text-white shadow-[0_12px_28px_rgba(229,9,20,0.35)] transition-colors hover:bg-red-500"
                   >
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                    </svg>
+                    <LuPlay size={14} className="fill-white transition-transform group-hover:scale-110" />
                     <span>Start Reading</span>
                   </Link>
                   <Link to={`/read/${chapters[0].id}`} className={pillButton}>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                    </svg>
+                    <LuPlay size={14} className="fill-zinc-300 transition-transform group-hover:scale-110 group-hover:fill-zinc-100" />
                     <span>Latest Chapter</span>
                   </Link>
                 </>
@@ -138,34 +146,15 @@ const MangaDetail = () => {
 
             <div className="mt-2 flex gap-2">
               <button type="button" className={`${pillButton} flex-1`}>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
+                <LuPlus size={16} className="transition-transform group-hover:scale-110" />
                 <span>Add to Library</span>
               </button>
               <button
                 type="button"
                 aria-label="Enable chapter notifications"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-300 hover:bg-white/[0.08]"
+                className="group inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-300 transition-colors hover:bg-white/[0.08] hover:text-white"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M18 16v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-5 4c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" />
-                </svg>
+                <LuBell size={18} className="transition-transform group-hover:scale-110 group-hover:fill-white/20" />
               </button>
             </div>
           </aside>
@@ -242,67 +231,69 @@ const MangaDetail = () => {
 
             <div className="mt-6 space-y-2">
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3">
-                <div className="min-w-0">
-                  <strong className="block text-sm text-zinc-100">
-                    Facing an Issue?
-                  </strong>
-                  <span className="text-xs text-zinc-500">
-                    Let us know, and we’ll help ASAP.
-                  </span>
+                <div className="min-w-0 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
+                    <LuTriangleAlert size={18} />
+                  </div>
+                  <div>
+                    <strong className="block text-sm text-zinc-100">
+                      Facing an Issue?
+                    </strong>
+                    <span className="text-xs text-zinc-500">
+                      Let us know, and we’ll help ASAP.
+                    </span>
+                  </div>
                 </div>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs font-bold text-red-300"
+                  className="inline-flex items-center gap-1 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs font-bold text-red-300 transition-colors hover:bg-red-500/20"
                 >
                   Report
                 </button>
               </div>
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3">
-                <div>
-                  <strong className="block text-sm text-zinc-100">
-                    Join Our Socials
-                  </strong>
-                  <span className="text-xs text-zinc-500">to explore more</span>
+                <div className="min-w-0 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400">
+                    <FaDiscord size={20} />
+                  </div>
+                  <div>
+                    <strong className="block text-sm text-zinc-100">
+                      Join Our Socials
+                    </strong>
+                    <span className="text-xs text-zinc-500">to explore more</span>
+                  </div>
                 </div>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-xs font-bold text-indigo-300"
+                  className="inline-flex items-center gap-1 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-xs font-bold text-indigo-300 transition-colors hover:bg-indigo-500/20"
                 >
-                  <FaDiscord size={16} /> Discord
+                  Join Server
                 </button>
               </div>
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3">
-                <div>
-                  <strong className="block text-sm text-zinc-100">
-                    Donate Us
-                  </strong>
-                  <span className="text-xs text-zinc-500">to support us</span>
+                <div className="min-w-0 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
+                    <SiKofi size={18} />
+                  </div>
+                  <div>
+                    <strong className="block text-sm text-zinc-100">
+                      Donate Us
+                    </strong>
+                    <span className="text-xs text-zinc-500">to support us</span>
+                  </div>
                 </div>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-xs font-bold text-cyan-300"
+                  className="inline-flex items-center gap-1 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-xs font-bold text-cyan-300 transition-colors hover:bg-cyan-500/20"
                 >
-                  <SiKofi size={16} /> Ko-Fi
+                  Support
                 </button>
               </div>
             </div>
 
             <div className="mt-6 flex gap-2">
-              <div className="flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-zinc-500"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+              <div className="group flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 focus-within:border-white/20 focus-within:bg-white/[0.05] transition-colors">
+                <LuSearch size={18} className="text-zinc-500 transition-colors group-focus-within:text-zinc-300" />
                 <input
                   className="h-10 w-full bg-transparent text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
                   type="text"
@@ -312,21 +303,9 @@ const MangaDetail = () => {
               <button
                 type="button"
                 aria-label="Sort chapters"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-300"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-300 transition-colors hover:bg-white/[0.08] hover:text-white"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
+                <LuArrowDownUp size={18} />
               </button>
             </div>
 
@@ -340,16 +319,19 @@ const MangaDetail = () => {
                 <Link
                   to={`/read/${ch.id}`}
                   key={ch.id}
-                  className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 transition-all hover:border-white/20 hover:bg-white/[0.05]"
+                  className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3 transition-all hover:border-white/20 hover:bg-white/[0.05]"
                 >
                   <div>
-                    <strong className="text-sm text-zinc-100">
+                    <strong className="text-sm text-zinc-100 transition-colors group-hover:text-red-400">
                       Chapter {ch.number}
                       {ch.title ? ` — ${ch.title}` : ""}
                     </strong>
                     <p className="text-xs text-zinc-500">
                       {new Date(ch.publishedAt).toLocaleDateString()}
                     </p>
+                  </div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] text-zinc-400 opacity-0 transition-all group-hover:opacity-100 group-hover:bg-red-500/20 group-hover:text-red-400">
+                    <LuPlay size={14} className="fill-current ml-0.5" />
                   </div>
                 </Link>
               ))}

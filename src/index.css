@@ -142,3 +142,10 @@ textarea {
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+

@@ -4,6 +4,7 @@ import { LuClock } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import SectionHeader from "./SectionHeader";
 import type { ApiSeries } from "../types/api";
+import { Skeleton } from "./Skeleton";
 
 interface PinnedSeriesProps {
   series: ApiSeries[];
@@ -27,8 +28,24 @@ const PinnedSeries = ({ series, loading = false }: PinnedSeriesProps) => {
       <SectionHeader title="Pinned Series" icon="📌" showViewAll />
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+        <div className="flex snap-x gap-3 overflow-x-hidden pb-2">
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="w-[82vw] max-w-[310px] shrink-0 overflow-hidden rounded-2xl border border-white/5 bg-[#111114]"
+            >
+              <Skeleton className="h-[180px] w-full" />
+              <div className="space-y-3 p-3">
+                <Skeleton className="h-4 w-2/3 rounded bg-white/10" />
+                <div className="rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5">
+                  <div className="flex items-center justify-between">
+                    <Skeleton className="h-3 w-16 rounded bg-white/10" />
+                    <Skeleton className="h-3 w-20 rounded bg-white/10" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       ) : series.length === 0 ? (
         <p className="py-8 text-center text-sm text-zinc-500">

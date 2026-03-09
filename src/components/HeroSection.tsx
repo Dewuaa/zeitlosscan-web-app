@@ -4,14 +4,22 @@ import type { MouseEvent } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import type { ApiSeries } from "../types/api";
+import { Skeleton } from "./Skeleton";
 
-const HeroSection = ({ series }: { series: ApiSeries[] }) => {
+const HeroSection = ({
+  series,
+  loading = false,
+}: {
+  series: ApiSeries[];
+  loading?: boolean;
+}) => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const total = series.length;
 
   const goTo = useCallback(
     (dir: "left" | "right") => {
+      if (total === 0) return;
       setActiveIndex((prev) => {
         if (dir === "left") return prev <= 0 ? total - 1 : prev - 1;
         return prev >= total - 1 ? 0 : prev + 1;
@@ -21,9 +29,10 @@ const HeroSection = ({ series }: { series: ApiSeries[] }) => {
   );
 
   useEffect(() => {
+    if (total === 0) return;
     const interval = setInterval(() => goTo("right"), 5000);
     return () => clearInterval(interval);
-  }, [goTo]);
+  }, [goTo, total]);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -66,6 +75,26 @@ const HeroSection = ({ series }: { series: ApiSeries[] }) => {
     return "pointer-events-none z-0 scale-75 opacity-0";
   };
 
+  if (loading) {
+    return (
+      <div className="content-shell pt-[76px] md:pt-[102px]">
+        <div className="relative h-[430px] overflow-hidden rounded-[28px] border border-white/10 bg-black/40 md:h-[520px]">
+          <div className="absolute left-1/2 top-1/2 h-[88%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-3xl max-md:w-[88%] bg-[#111114]">
+             <Skeleton className="h-full w-full rounded-3xl" />
+             <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 space-y-3 z-10">
+               <Skeleton className="h-8 w-2/3 md:h-10 rounded-lg bg-white/10" />
+               <Skeleton className="h-5 w-24 rounded-full bg-white/10 mt-2" />
+               <div className="space-y-2 mt-4 hidden md:block">
+                 <Skeleton className="h-4 w-full rounded bg-white/10" />
+                 <Skeleton className="h-4 w-5/6 rounded bg-white/10" />
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (series.length === 0) return null;
 
   return (
@@ -78,18 +107,18 @@ const HeroSection = ({ series }: { series: ApiSeries[] }) => {
         <button
           type="button"
           aria-label="Previous slide"
-          className="absolute left-3 top-1/2 z-40 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-zinc-100 backdrop-blur hover:bg-black/75"
+          className="group absolute left-3 top-1/2 z-40 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-zinc-100 backdrop-blur transition-all hover:scale-110 hover:bg-black/75 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
           onClick={() => goTo("left")}
         >
-          <LuChevronLeft size={24} />
+          <LuChevronLeft size={24} className="transition-transform group-hover:-translate-x-0.5" />
         </button>
         <button
           type="button"
           aria-label="Next slide"
-          className="absolute right-3 top-1/2 z-40 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-zinc-100 backdrop-blur hover:bg-black/75"
+          className="group absolute right-3 top-1/2 z-40 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-zinc-100 backdrop-blur transition-all hover:scale-110 hover:bg-black/75 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
           onClick={() => goTo("right")}
         >
-          <LuChevronRight size={24} />
+          <LuChevronRight size={24} className="transition-transform group-hover:translate-x-0.5" />
         </button>
 
         <div className="relative h-full">
